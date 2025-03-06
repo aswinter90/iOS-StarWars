@@ -18,7 +18,7 @@ struct FilmListView<FilmListInteractor: FilmListInteracting>: View {
         Group {
             switch viewModel.state {
             case .loading:
-                ProgressView()
+                LightsaberIndicator()
             case let .loaded(films):
                 filmPager(for: films)
             case let .error(error):

@@ -8,11 +8,12 @@
 import Foundation
 
 class FilmListInteractingMock: FilmListInteracting {
-    var state: FilmListState = .loaded(PreviewData.films)
+    @Published var state: FilmListState = .loading
 
+    @MainActor
     func fetchFilms() async {
         state = .loading
-        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        try? await Task.sleep(nanoseconds: 2_000_000_000)
         state = .loaded(PreviewData.films)
     }
 }
