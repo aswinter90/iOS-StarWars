@@ -6,8 +6,26 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct Film: PresentableModel {
+    enum CodingKeys: String, CodingKey {
+        case title
+        case episodeId = "episode_id"
+        case openingCrawl = "opening_crawl"
+        case director
+        case producer
+        case releaseDate = "release_date"
+        case species
+        case starships
+        case vehicles
+        case characters
+        case planets
+        case url
+        case created
+        case edited
+    }
+
     var name: String { title }
     var id: URL { url }
 
@@ -25,21 +43,10 @@ struct Film: PresentableModel {
     let url: URL
     let created: Date
     let edited: Date
+}
 
-    enum CodingKeys: String, CodingKey {
-        case title
-        case episodeId = "episode_id"
-        case openingCrawl = "opening_crawl"
-        case director
-        case producer
-        case releaseDate = "release_date"
-        case species
-        case starships
-        case vehicles
-        case characters
-        case planets
-        case url
-        case created
-        case edited
+extension Film {
+    var image: Image {
+        Image.init(.init(name: "ep\(episodeId)", bundle: .main))
     }
 }

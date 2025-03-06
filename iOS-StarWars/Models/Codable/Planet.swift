@@ -8,23 +8,6 @@
 import Foundation
 
 struct Planet: PresentableModel {
-    var id: URL { url }
-
-    let name: String
-    let diameter: String
-    let rotationPeriod: String
-    let orbitalPeriod: String
-    let gravity: String
-    let population: String
-    let climate: String
-    let terrain: String
-    let surfaceWater: String
-    let residents: [URL]
-    let films: [URL]
-    let url: URL
-    let created: Date
-    let edited: Date
-
     enum CodingKeys: String, CodingKey {
         case name
         case diameter
@@ -41,4 +24,21 @@ struct Planet: PresentableModel {
         case created
         case edited
     }
+
+    var id: URL { url }
+
+    let name: String
+    let diameter: String
+    let rotationPeriod: String
+    let orbitalPeriod: String
+    let gravity: String
+    let population: String
+    let climate: String
+    let terrain: String
+    let surfaceWater: String
+    let residents: [URL]
+    let films: [URL]
+    let url: URL
+    let created: Date
+    let edited: Date
 }

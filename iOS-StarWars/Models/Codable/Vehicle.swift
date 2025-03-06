@@ -8,25 +8,6 @@
 import Foundation
 
 struct Vehicle: PresentableModel {
-    var id: URL { url }
-
-    let name: String
-    let model: String
-    let vehicleClass: String
-    let manufacturer: String
-    let length: String
-    let costInCredits: String
-    let crew: String
-    let passengers: String
-    let maxAtmospheringSpeed: String
-    let cargoCapacity: String
-    let consumables: String
-    let films: [URL]
-    let pilots: [URL]
-    let url: URL
-    let created: Date
-    let edited: Date
-
     enum CodingKeys: String, CodingKey {
         case name
         case model
@@ -45,4 +26,23 @@ struct Vehicle: PresentableModel {
         case created
         case edited
     }
+
+    var id: URL { url }
+
+    let name: String
+    let model: String
+    let vehicleClass: String
+    let manufacturer: String
+    let length: String
+    let costInCredits: String
+    let crew: String
+    let passengers: String
+    let maxAtmospheringSpeed: String
+    let cargoCapacity: String
+    let consumables: String
+    let films: [URL]
+    let pilots: [URL]
+    let url: URL
+    let created: Date
+    let edited: Date
 }

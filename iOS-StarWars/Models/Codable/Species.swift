@@ -8,24 +8,6 @@
 import Foundation
 
 struct Species: PresentableModel {
-    var id: URL { url }
-
-    let name: String
-    let classification: String
-    let designation: String
-    let averageHeight: String
-    let averageLifespan: String
-    let eyeColors: String
-    let hairColors: String
-    let skinColors: String
-    let language: String
-    let homeworld: URL?
-    let people: [URL]
-    let films: [URL]
-    let url: URL
-    let created: Date
-    let edited: Date
-
     enum CodingKeys: String, CodingKey {
         case name
         case classification
@@ -43,4 +25,22 @@ struct Species: PresentableModel {
         case created
         case edited
     }
+
+    var id: URL { url }
+
+    let name: String
+    let classification: String
+    let designation: String
+    let averageHeight: String
+    let averageLifespan: String
+    let eyeColors: String
+    let hairColors: String
+    let skinColors: String
+    let language: String
+    let homeworld: URL?
+    let people: [URL]
+    let films: [URL]
+    let url: URL
+    let created: Date
+    let edited: Date
 }

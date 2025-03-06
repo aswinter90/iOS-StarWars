@@ -8,25 +8,6 @@
 import Foundation
 
 struct Character: PresentableModel {
-    var id: URL { url }
-
-    let name: String
-    let birthYear: String
-    let eyeColor: String
-    let gender: String
-    let hairColor: String
-    let height: String
-    let mass: String
-    let skinColor: String
-    let homeworld: URL
-    let films: [URL]
-    let species: [URL]
-    let starships: [URL]
-    let vehicles: [URL]
-    let url: URL
-    let created: Date
-    let edited: Date
-
     enum CodingKeys: String, CodingKey {
         case name
         case birthYear = "birth_year"
@@ -45,4 +26,23 @@ struct Character: PresentableModel {
         case created
         case edited
     }
+
+    var id: URL { url }
+
+    let name: String
+    let birthYear: String
+    let eyeColor: String
+    let gender: String
+    let hairColor: String
+    let height: String
+    let mass: String
+    let skinColor: String
+    let homeworld: URL
+    let films: [URL]
+    let species: [URL]
+    let starships: [URL]
+    let vehicles: [URL]
+    let url: URL
+    let created: Date
+    let edited: Date
 }

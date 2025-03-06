@@ -15,16 +15,18 @@ struct FilmListView<FilmListInteractor: FilmListInteracting>: View {
     }
 
     var body: some View {
-        Group {
+        ZStack {
             switch viewModel.state {
             case .loading:
                 LightsaberIndicator()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
             case let .loaded(films):
                 filmPager(for: films)
             case let .error(error):
                 Text(error.localizedDescription)
             }
         }
+        .background(.primary)
         .task {
             await viewModel.fetchFilms()
         }
@@ -34,18 +36,22 @@ struct FilmListView<FilmListInteractor: FilmListInteracting>: View {
         GeometryReader { proxy in
             TabView {
                 ForEach(films) { film in
-                    Text(film.title)
-                        .foregroundStyle(.white)
-                        .background {
-                            RoundedRectangle(cornerRadius: 25)
-                                .fill(.blue)
-                                .frame(width: proxy.size.width - 16, height: proxy.size.height - 16)
-                                .padding(.horizontal)
-                        }
+                    filmTile(for: film, size: proxy.size)
                 }
             }
-            .tabViewStyle(.page)
+            .tabViewStyle(.page(indexDisplayMode: .always))
         }
+    }
+
+    func filmTile(for film: Film, size: CGSize) -> some View {
+        film.image
+            .resizable()
+            .scaledToFit()
+            .clipShape(
+                RoundedRectangle(cornerRadius: 24)
+            )
+            .frame(width: size.width - 16, height: size.height - 16)
+            .padding(.horizontal)
     }
 }
 
