@@ -8,76 +8,81 @@
 import Foundation
 
 protocol FactProviding {
-    func fetchFilms() async throws -> [Film]
-    func fetchFilm(title: String) async throws -> Film
-    func fetchCharacters() async throws -> [Character]
-    func fetchCharacter(name: String) async throws -> Character
-    func fetchStarships() async throws -> [Starship]
-    func fetchStarShip(name: String) async throws -> Starship
-    func fetchVehicles() async throws -> [Vehicle]
-    func fetchVehicle(name: String) async throws -> Vehicle
-    func fetchSpecies() async throws -> [Species]
-    func fetchSpecies(name: String) async throws -> Species
-    func fetchPlanets() async throws -> [Planet]
-    func fetchPlanet(name: String) async throws -> Planet
+    func fetchCharacters() async throws -> FactListResponse<Character>
+    func fetchCharacter(named: String) async throws -> Character
+    func fetchFilms() async throws -> FactListResponse<Film>
+    func fetchFilm(named: String) async throws -> Film
+    func fetchPlanets() async throws -> FactListResponse<Planet>
+    func fetchPlanet(named: String) async throws -> Planet
+    func fetchAllSpecies() async throws -> FactListResponse<Species>
+    func fetchSpecies(named: String) async throws -> Species
+    func fetchStarships() async throws -> FactListResponse<Starship>
+    func fetchStarship(named: String) async throws -> Starship
+    func fetchVehicles() async throws -> FactListResponse<Vehicle>
+    func fetchVehicle(named: String) async throws -> Vehicle
 }
 
 class FactProvider: FactProviding {
+    private let endpointFactory: EndpointFactory
     private let networkService: Networking
 
-    init(networkService: Networking) {
+    init(endpointFactory: EndpointFactory, networkService: Networking) {
+        self.endpointFactory = endpointFactory
         self.networkService = networkService
     }
 
-    func fetchFilms() async throws -> [Film] {
-        try await fetchResponse([Film].self, from: .allFilms)
+    func fetchCharacters() async throws -> FactListResponse<Character> {
+        try await fetchResponse(fact: .characters)
     }
 
-    func fetchFilm(title: String) async throws -> Film {
-        try await fetchResponse(Film.self, from: .film(title: title))
+    func fetchCharacter(named: String) async throws -> Character {
+        try await fetchResponse(fact: .characters, named: named)
     }
 
-    func fetchCharacters() async throws -> [Character] {
-        try await fetchResponse([Character].self, from: .allCharacters)
+    func fetchFilms() async throws -> FactListResponse<Film> {
+        try await fetchResponse(fact: .films)
     }
 
-    func fetchCharacter(name: String) async throws -> Character {
-        try await fetchResponse(Character.self, from: .character(name: name))
+    func fetchFilm(named: String) async throws -> Film {
+        try await fetchResponse(fact: .films, named: named)
     }
 
-    func fetchStarships() async throws -> [Starship] {
-        try await fetchResponse([Starship].self, from: .allStarships)
+    func fetchPlanets() async throws -> FactListResponse<Planet> {
+        try await fetchResponse(fact: .planets)
     }
 
-    func fetchStarShip(name: String) async throws -> Starship {
-        try await fetchResponse(Starship.self, from: .starship(name: name))
+    func fetchPlanet(named: String) async throws -> Planet {
+        try await fetchResponse(fact: .planets, named: named)
     }
 
-    func fetchVehicles() async throws -> [Vehicle] {
-        try await fetchResponse([Vehicle].self, from: .allVehicles)
+    func fetchAllSpecies() async throws -> FactListResponse<Species> {
+        try await fetchResponse(fact: .species)
     }
 
-    func fetchVehicle(name: String) async throws -> Vehicle {
-        try await fetchResponse(Vehicle.self, from: .vehicle(name: name))
+    func fetchSpecies(named: String) async throws -> Species {
+        try await fetchResponse(fact: .species, named: named)
     }
 
-    func fetchSpecies() async throws -> [Species] {
-        try await fetchResponse([Species].self, from: .allSpecies)
+    func fetchStarships() async throws -> FactListResponse<Starship> {
+        try await fetchResponse(fact: .starships)
     }
 
-    func fetchSpecies(name: String) async throws -> Species {
-        try await fetchResponse(Species.self, from: .species(name: name))
+    func fetchStarship(named: String) async throws -> Starship {
+        try await fetchResponse(fact: .starships, named: named)
     }
 
-    func fetchPlanets() async throws -> [Planet] {
-        try await fetchResponse([Planet].self, from: .allPlanets)
+    func fetchVehicles() async throws -> FactListResponse<Vehicle> {
+        try await fetchResponse(fact: .vehicles)
     }
 
-    func fetchPlanet(name: String) async throws -> Planet {
-        try await fetchResponse(Planet.self, from: .planet(name: name))
+    func fetchVehicle(named: String) async throws -> Vehicle {
+        try await fetchResponse(fact: .vehicles, named: named)
     }
+}
 
-    private func fetchResponse<T: Decodable>(_ type: T.Type, from endpoint: Endpoint) async throws -> T {
-        try await networkService.fetch(T.self, from: endpoint.url)
+private extension FactProvider {
+    func fetchResponse<T: Decodable>(fact: Fact, named: String? = nil) async throws -> T {
+        let url = endpointFactory.makeURL(for: fact, queryParameter: named)
+        return try await networkService.fetch(T.self, from: url)
     }
 }

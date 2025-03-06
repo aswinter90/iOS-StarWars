@@ -5,10 +5,11 @@
 //  Created by Arne-Sebastian Winter on 05.03.25.
 //
 
-
 import Foundation
 
-struct Vehicle: Codable {
+struct Vehicle: PresentableModel {
+    var id: URL { url }
+
     let name: String
     let model: String
     let vehicleClass: String

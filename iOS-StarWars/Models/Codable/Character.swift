@@ -5,10 +5,11 @@
 //  Created by Arne-Sebastian Winter on 05.03.25.
 //
 
-
 import Foundation
 
-struct Character: Codable {
+struct Character: PresentableModel {
+    var id: URL { url }
+
     let name: String
     let birthYear: String
     let eyeColor: String

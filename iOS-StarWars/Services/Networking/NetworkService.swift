@@ -12,7 +12,14 @@ protocol Networking {
 }
 
 class NetworkService {
-    func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws(NetworkServiceError) -> T {
+    private static let maxNumberOfRetries = 3
+    private var decoder: JSONDecoder = {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .formatted(Formatters.iso8601Formatter)
+        return decoder
+    }()
+
+    func fetch<T: Decodable>(_ type: T.Type, from url: URL, attempt: Int) async throws(NetworkServiceError) -> T {
         do {
             let (data, urlResponse) = try await URLSession.shared.data(from: url)
 
@@ -22,12 +29,16 @@ class NetworkService {
 
             switch httpURLResponse.statusCode {
             case 200...299:
-                let response = try JSONDecoder().decode(T.self, from: data)
+                let response = try decoder.decode(T.self, from: data)
                 return response
             default:
                 throw NetworkServiceError.generic
             }
         } catch let error as URLError {
+            if attempt < NetworkService.maxNumberOfRetries {
+                return try await fetch(type, from: url, attempt: attempt + 1)
+            }
+
             switch error.code {
             case .timedOut:
                 throw NetworkServiceError.timeout
@@ -45,9 +56,8 @@ class NetworkService {
     }
 }
 
-enum NetworkServiceError: LocalizedError {
-    case connectionIssue
-    case timeout
-    case decodingFailed(description: String)
-    case generic
+extension NetworkService: Networking {
+    func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws -> T {
+        try await fetch(T.self, from: url, attempt: 0)
+    }
 }

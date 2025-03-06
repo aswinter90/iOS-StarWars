@@ -5,10 +5,11 @@
 //  Created by Arne-Sebastian Winter on 05.03.25.
 //
 
-
 import Foundation
 
-struct Planet: Codable {
+struct Planet: PresentableModel {
+    var id: URL { url }
+
     let name: String
     let diameter: String
     let rotationPeriod: String

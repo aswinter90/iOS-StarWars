@@ -5,10 +5,11 @@
 //  Created by Arne-Sebastian Winter on 05.03.25.
 //
 
-
 import Foundation
 
-struct Starship: Codable {
+struct Starship: PresentableModel {
+    var id: URL { url }
+
     let name: String
     let model: String
     let starshipClass: String

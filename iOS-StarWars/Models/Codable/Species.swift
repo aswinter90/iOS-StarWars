@@ -5,10 +5,11 @@
 //  Created by Arne-Sebastian Winter on 05.03.25.
 //
 
-
 import Foundation
 
-struct Species: Codable {
+struct Species: PresentableModel {
+    var id: URL { url }
+
     let name: String
     let classification: String
     let designation: String

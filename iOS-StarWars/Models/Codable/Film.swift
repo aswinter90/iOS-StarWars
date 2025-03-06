@@ -5,16 +5,18 @@
 //  Created by Arne-Sebastian Winter on 05.03.25.
 //
 
-
 import Foundation
 
-struct Film: Codable {
+struct Film: PresentableModel {
+    var name: String { title }
+    var id: URL { url }
+
     let title: String
     let episodeId: Int
     let openingCrawl: String
     let director: String
     let producer: String
-    let releaseDate: Date
+    let releaseDate: String
     let species: [URL]
     let starships: [URL]
     let vehicles: [URL]
