@@ -8,8 +8,12 @@
 import Foundation
 
 class FilmListInteractingMock: FilmPagerInteracting {
-    @Published var state: FilmPagerState = .loading
+    @Published var state: FilmPagerState
     var factProvider: FactProviding = FactProvidingMock()
+
+    init(state: FilmPagerState = .loaded(PreviewData.films)) {
+        self.state = state
+    }
 
     @MainActor
     func fetchFilms() async {

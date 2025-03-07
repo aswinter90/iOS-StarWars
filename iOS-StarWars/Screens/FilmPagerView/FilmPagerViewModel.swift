@@ -10,7 +10,7 @@ import Foundation
 enum FilmPagerState {
     case loading
     case loaded([Film])
-    case error(Error)
+    case error(CommonError)
 }
 
 protocol FilmPagerInteracting: ObservableObject {
@@ -33,6 +33,9 @@ class FilmPagerViewModel: FilmPagerInteracting {
     @MainActor
     func fetchFilms() async {
         state = .loading
+
+        // Min duration for loading indicator to be displayed
+        try? await Task.sleep(nanoseconds: 1_000_000_000)
 
         do {
             let factResponse: FactListResponse<Film> = try await factProvider.fetchFilms()

@@ -7,23 +7,19 @@
 
 import Foundation
 
-struct ListField {
-    let key: String
-    let value: ListFieldValue
-}
-enum ListFieldValue {
-    case string(String)
-    case urls([URL])
-}
+struct DetailsListField {
+    enum Value {
+        case string(String)
+        case urls([URL])
+    }
 
-enum DetailsState {
-    case loadingFields
-    case loaded
-    case error(Error)
+    let key: String
+    let value: Value
 }
 
 class DetailsViewModel: ObservableObject {
-    let state = DetailsState.loadingFields
+    private static let nameFieldKeys = ["name", "title"]
+
     let factProvider: FactProviding
 
     private let model: any PresentableModel
@@ -32,21 +28,23 @@ class DetailsViewModel: ObservableObject {
         model.name
     }
 
-    lazy var listFields: [ListField] = {
-        model.fields.map { element in
+    lazy var listFields: [DetailsListField] = {
+        model.fields.compactMap { element in
             let (key, value) = element
 
             return if let value = value as? [URL] {
-                .init(key: key, value: ListFieldValue.urls(value))
+                .init(key: key, value: .urls(value))
+            } else if let value = value as? URL {
+                .init(key: key, value: .urls([value]))
             } else if let value = value as? String {
-                .init(key: key, value: ListFieldValue.string(value))
+                Self.nameFieldKeys.contains(key) ? nil : .init(key: key, value: .string(value))
             } else if let value = value as? Date {
                 .init(
                     key: key,
-                    value: ListFieldValue.string(Formatters.dayMonthYearFormatter.string(from: value))
+                    value: .string(Formatters.commonDateFormatter.string(from: value))
                 )
             } else {
-                .init(key: key, value: ListFieldValue.string("\(value)"))
+                .init(key: key, value: .string("\(value)"))
             }
         }
     }()
@@ -54,11 +52,5 @@ class DetailsViewModel: ObservableObject {
     init(model: any PresentableModel, factProvider: FactProviding) {
         self.model = model
         self.factProvider = factProvider
-
-        prepareFields()
-    }
-
-    func prepareFields() {
-        
     }
 }

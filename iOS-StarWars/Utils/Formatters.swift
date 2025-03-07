@@ -16,7 +16,7 @@ struct Formatters {
         return dateFormatter
     }()
 
-    static let dayMonthYearFormatter: DateFormatter = {
+    static let commonDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.setLocalizedDateFormatFromTemplate("dd.MM.yyyy")
         return dateFormatter

@@ -1,85 +1,35 @@
 //
-//  UrlsListItem.swift
+//  LinkListItemViewModel.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 07.03.25.
 //
 
-import SwiftUI
+import Foundation
 
-struct UrlsListItem: View {
-    @ObservedObject private var viewModel: UrlsListItemViewModel
-
-    init(viewModel: UrlsListItemViewModel) {
-        self.viewModel = viewModel
-    }
-
-    var body: some View {
-        DisclosureGroup {
-            switch viewModel.state {
-            case .loading:
-                VStack(alignment: .leading) {
-                    ForEach(viewModel.urls, id: \.absoluteString) { url in
-                        Text(url.absoluteString)
-                            .font(.subheadline)
-                            .redacted(reason: .placeholder)
-                    }
-                }
-                .task {
-                    await viewModel.fetchModels()
-                }
-            case let .loaded(models):
-                ForEach(models, id: \.name) { model in
-                    NavigationLink {
-                        DetailsView(
-                            viewModel: .init(
-                                model: model,
-                                factProvider: viewModel.factProvider
-                            )
-                        )
-                    } label: {
-                        Text(model.name)
-                            .font(.subheadline)
-                            .foregroundColor(.accentColor)
-                    }
-                }
-            case let .error(error):
-                Text(error.localizedDescription)
-            }
-        } label: {
-            Text(viewModel.key.capitalized)
-                .font(.headline)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
+enum LinkListItemState {
+    case loading(placeholders: [String])
+    case loaded(models: [any PresentableModel])
+    case error(CommonError)
 }
 
-#Preview {
-    List {
-        UrlsListItem(
-            viewModel: .init(
-                key: "Planets",
-                urls: [URL(string: "https://swapi.dev/api/planets/1/")!],
-                factProvider: FactProvidingMock()
-            )
-        )
-    }
+protocol LinkListItemInteracting: ObservableObject {
+    var state: LinkListItemState { get }
+    var key: String { get }
+    var factProvider: FactProviding { get }
+    func fetchModels() async
 }
 
-class UrlsListItemViewModel: ObservableObject {
-    enum State {
-        case loading
-        case loaded(models: [any PresentableModel])
-        case error(Error)
-    }
-
+class LinkListItemViewModel: LinkListItemInteracting {
     let factProvider: FactProviding
 
+    @Published var state: LinkListItemState
     let key: String
-    let urls: [URL]
-    @Published var state = State.loading
+
+    private let urls: [URL]
 
     init(key: String, urls: [URL], factProvider: FactProviding) {
+        self.state = .loading(placeholders: urls.map { $0.absoluteString })
         self.key = key
         self.urls = urls
         self.factProvider = factProvider
@@ -87,14 +37,21 @@ class UrlsListItemViewModel: ObservableObject {
 
     func fetchModels() async {
         await MainActor.run {
-            state = .loading
+            state = .loading(placeholders: urls.map { $0.absoluteString })
         }
 
-        // We assume that all URLs in the list point to the same resource type
-        guard let firstURL = urls.first, let fact = fact(from: firstURL) else {
+        guard let firstURL = urls.first else {
             return
         }
 
+        // For simplicity we assume that all URLs in the list point to the same resource type
+        guard let fact = StarWarsFact(from: firstURL) else {
+            debugPrint("Error: Failed to determine response model from URL: \(firstURL). Second to last path component does not match any known `StarWarsFact`")
+            return
+        }
+
+        // After trying for some time to make this huge statement more generic, I decided to go with a pragmatic approach.
+        // TaskGroups are difficult to handle and do not lightly accept protocols like the `PresentableModel` as result type.
         let models: [(any PresentableModel)?] = switch fact {
         case .films:
             await withTaskGroup(of: Film?.self) { taskGroup in
@@ -196,27 +153,10 @@ class UrlsListItemViewModel: ObservableObject {
 
         await MainActor.run {
             if models.isEmpty {
-                state = .error(NSError(domain: "URLListItemViewModelErrorDomain", code: -1))
+                state = .error(.generic(description: "Failed to load data for \(key) section."))
             } else {
                 state = .loaded(models: models.compactMap { $0 })
             }
         }
-    }
-
-    private func fact(from url: URL) -> Fact? {
-        let pathComponents = url.pathComponents.filter { $0 != "/" }
-
-        guard pathComponents.count >= 2 else {
-            return nil
-        }
-
-        let resource = pathComponents[pathComponents.count - 2]
-
-        guard let fact = Fact(rawValue: resource) else {
-            debugPrint("Error: Failed to determine response model from URL: \(url). Second to last path component does not match any known `Fact` case")
-            return nil
-        }
-
-        return fact
     }
 }

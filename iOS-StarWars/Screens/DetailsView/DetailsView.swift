@@ -20,8 +20,8 @@ struct DetailsView: View {
                     if urls.isEmpty {
                         EmptyView()
                     } else {
-                        UrlsListItem(
-                            viewModel: .init(
+                        LinkListItem(
+                            viewModel: LinkListItemViewModel(
                                 key: field.key,
                                 urls: urls,
                                 factProvider: viewModel.factProvider
@@ -31,7 +31,7 @@ struct DetailsView: View {
                 }
             }
         }
-        .navigationTitle("Details")
+        .navigationTitle(viewModel.navigationTitle)
     }
 }
 

@@ -23,10 +23,9 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
             case let .loaded(films):
                 filmPager(for: films)
             case let .error(error):
-                Text(error.localizedDescription)
+                ErrorView(error: error, onRetry: viewModel.fetchFilms)
             }
         }
-        .background(.black)
     }
 
     func filmPager(for films: [Film]) -> some View {
@@ -50,17 +49,28 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
     }
 
     func filmTile(for film: Film, size: CGSize) -> some View {
-        VStack {
-            film.image
-                .resizable()
-                .scaledToFit()
-                .clipShape(RoundedRectangle(cornerRadius: 24))
-                .frame(width: size.width - 16)
-                .padding(.horizontal)
-        }
+        film.image
+            .resizable()
+            .scaledToFit()
+            .clipShape(RoundedRectangle(cornerRadius: 24))
+            .frame(width: size.width - 16)
+            .padding(.horizontal)
     }
 }
 
-#Preview {
+#Preview("Results") {
     FilmPagerView(filmListInteractor: FilmListInteractingMock())
+        .preferredColorScheme(.dark)
+}
+
+#Preview("Loading") {
+    FilmPagerView(filmListInteractor: FilmListInteractingMock(state: .loading))
+        .preferredColorScheme(.dark)
+}
+
+#Preview("Error") {
+    FilmPagerView(
+        filmListInteractor: FilmListInteractingMock(state: .error(CommonError.connectionIssue))
+    )
+    .preferredColorScheme(.dark)
 }

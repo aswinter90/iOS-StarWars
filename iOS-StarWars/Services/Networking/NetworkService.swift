@@ -8,7 +8,7 @@
 import Foundation
 
 protocol Networking {
-    func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws -> T
+    func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws(CommonError) -> T
 }
 
 class NetworkService {
@@ -19,12 +19,12 @@ class NetworkService {
         return decoder
     }()
 
-    func fetch<T: Decodable>(_ type: T.Type, from url: URL, attempt: Int) async throws(NetworkServiceError) -> T {
+    func fetch<T: Decodable>(_ type: T.Type, from url: URL, attempt: Int) async throws(CommonError) -> T {
         do {
             let (data, urlResponse) = try await URLSession.shared.data(from: url)
 
             guard let httpURLResponse = urlResponse as? HTTPURLResponse else {
-                throw NetworkServiceError.generic
+                throw CommonError.generic()
             }
 
             switch httpURLResponse.statusCode {
@@ -32,7 +32,7 @@ class NetworkService {
                 let response = try decoder.decode(T.self, from: data)
                 return response
             default:
-                throw NetworkServiceError.generic
+                throw CommonError.generic()
             }
         } catch let error as URLError {
             if attempt < NetworkService.maxNumberOfRetries {
@@ -41,23 +41,23 @@ class NetworkService {
 
             switch error.code {
             case .timedOut:
-                throw NetworkServiceError.timeout
+                throw CommonError.timeout
             case .networkConnectionLost, .notConnectedToInternet:
-                throw NetworkServiceError.connectionIssue
+                throw CommonError.connectionIssue
             default:
-                throw NetworkServiceError.generic
+                throw CommonError.generic()
             }
         } catch let error as DecodingError {
             debugPrint(error)
-            throw NetworkServiceError.decodingFailed(description: error.localizedDescription)
+            throw CommonError.decodingFailed(description: error.localizedDescription)
         } catch {
-            throw NetworkServiceError.generic
+            throw CommonError.generic()
         }
     }
 }
 
 extension NetworkService: Networking {
-    func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws -> T {
+    func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws(CommonError) -> T {
         try await fetch(T.self, from: url, attempt: 0)
     }
 }

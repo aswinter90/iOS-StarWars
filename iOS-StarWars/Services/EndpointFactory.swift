@@ -15,7 +15,7 @@ struct EndpointFactory {
         return url
     }()
 
-    func makeURL(for fact: Fact, queryParameter: String?) -> URL {
+    func makeURL(for fact: StarWarsFact, queryParameter: String?) -> URL {
         baseURL
             .appendingPathComponent(fact.rawValue)
             .appendingPathComponent(queryParameter ?? "")
