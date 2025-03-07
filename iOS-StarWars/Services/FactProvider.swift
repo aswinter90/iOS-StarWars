@@ -13,11 +13,11 @@ protocol FactProviding {
 }
 
 class FactProvider: FactProviding {
-    private let endpointFactory: EndpointFactory
+    private let endpointProvider: EndpointProviding
     private let networkService: Networking
 
-    init(endpointFactory: EndpointFactory, networkService: Networking) {
-        self.endpointFactory = endpointFactory
+    init(endpointProvider: EndpointProviding, networkService: Networking) {
+        self.endpointProvider = endpointProvider
         self.networkService = networkService
     }
 
@@ -32,7 +32,7 @@ class FactProvider: FactProviding {
 
 private extension FactProvider {
     func fetchResponse<T: Decodable>(fact: StarWarsFact, named: String? = nil) async throws(CommonError) -> T {
-        let url = endpointFactory.makeURL(for: fact, queryParameter: named)
+        let url = endpointProvider.makeURL(for: fact, queryParameter: named)
         return try await networkService.fetch(T.self, from: url)
     }
 }

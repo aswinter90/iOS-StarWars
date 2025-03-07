@@ -20,38 +20,49 @@ struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
         DisclosureGroup(isExpanded: $isExpanded) {
             switch viewModel.state {
             case let .loading(placeholders):
-                VStack(alignment: .leading) {
-                    ForEach(placeholders, id: \.self) {
-                        Text($0)
-                            .font(.subheadline)
-                            .redacted(reason: .placeholder)
-                    }
-                }
-                .task {
-                    await viewModel.fetchModels()
-                }
+                loadingView(for: placeholders)
             case let .loaded(models):
-                ForEach(models, id: \.name) { model in
-                    NavigationLink {
-                        DetailsView(
-                            viewModel: DetailsViewModel(
-                                model: model,
-                                factProvider: viewModel.factProvider
-                            )
-                        )
-                    } label: {
-                        Text(model.name)
-                            .font(.subheadline)
-                            .foregroundColor(.accentColor)
-                    }
-                }
+                resultView(for: models)
             case let .error(error):
-                ErrorView.init(error: error, onRetry: viewModel.fetchModels)
+                ErrorView.init(
+                    error: error,
+                    onRetry: viewModel.fetchModels
+                )
             }
         } label: {
             Text(viewModel.key.capitalized)
                 .font(.headline)
                 .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    func loadingView(for placeholders: [String]) -> some View {
+        VStack(alignment: .leading) {
+            ForEach(placeholders, id: \.self) {
+                Text($0)
+                    .font(.subheadline)
+                    .redacted(reason: .placeholder)
+            }
+        }
+        .task {
+            await viewModel.fetchModels()
+        }
+    }
+
+    func resultView(for models: [any PresentableModel]) -> some View {
+        ForEach(models, id: \.name) { model in
+            NavigationLink {
+                DetailsView(
+                    viewModel: DetailsViewModel(
+                        model: model,
+                        factProvider: viewModel.factProvider
+                    )
+                )
+            } label: {
+                Text(model.name)
+                    .font(.subheadline)
+                    .foregroundColor(.accentColor)
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ public struct AppView: View {
             FilmPagerView(
                 filmListInteractor: FilmPagerViewModel(
                     factProvider: FactProvider(
-                        endpointFactory: .init(),
+                        endpointProvider: EndpointFactory(),
                         networkService: NetworkService()
                     )
                 )
@@ -25,4 +25,5 @@ public struct AppView: View {
 
 #Preview {
     AppView()
+        .preferredColorScheme(.dark)
 }

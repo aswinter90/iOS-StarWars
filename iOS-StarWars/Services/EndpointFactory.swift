@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct EndpointFactory {
+protocol EndpointProviding {
+    func makeURL(for fact: StarWarsFact, queryParameter: String?) -> URL
+}
+
+struct EndpointFactory: EndpointProviding {
     private let baseURL: URL = {
         guard let url = URL(string: "https://swapi.dev/api/") else {
             fatalError("Could not create base URL for Star Wars API. Shutting down.")
