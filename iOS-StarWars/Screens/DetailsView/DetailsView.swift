@@ -36,6 +36,8 @@ struct DetailsView<DetailsViewInteractor: DetailsViewInteracting>: View {
 }
 
 #Preview {
-    NavigationStack {DetailsView(viewModel: DetailsViewInteractingMock())}
-        .preferredColorScheme(.dark)
+    NavigationStack {
+        DetailsView(viewModel: DetailsViewInteractingMock())
+    }
+    .preferredColorScheme(.dark)
 }
