@@ -34,7 +34,7 @@ struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
                 ForEach(models, id: \.name) { model in
                     NavigationLink {
                         DetailsView(
-                            viewModel: .init(
+                            viewModel: DetailsViewModel(
                                 model: model,
                                 factProvider: viewModel.factProvider
                             )

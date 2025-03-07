@@ -17,7 +17,13 @@ struct DetailsListField {
     let value: Value
 }
 
-class DetailsViewModel: ObservableObject {
+protocol DetailsViewInteracting: ObservableObject {
+    var navigationTitle: String { get }
+    var listFields: [DetailsListField] { get }
+    var factProvider: FactProviding { get }
+}
+
+class DetailsViewModel: DetailsViewInteracting {
     private static let nameFieldKeys = ["name", "title"]
 
     let factProvider: FactProviding

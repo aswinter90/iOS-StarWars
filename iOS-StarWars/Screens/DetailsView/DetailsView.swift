@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct DetailsView: View {
-    let viewModel: DetailsViewModel
+struct DetailsView<DetailsViewInteractor: DetailsViewInteracting>: View {
+    let viewModel: DetailsViewInteractor
 
     var body: some View {
         List {
@@ -36,7 +36,6 @@ struct DetailsView: View {
 }
 
 #Preview {
-    NavigationStack {
-        DetailsView(viewModel: .init(model: PreviewData.film, factProvider: FactProvidingMock()))
-    }
+    NavigationStack {DetailsView(viewModel: DetailsViewInteractingMock())}
+        .preferredColorScheme(.dark)
 }

@@ -34,7 +34,7 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
                 ForEach(films) { film in
                     NavigationLink {
                         DetailsView(
-                            viewModel: .init(
+                            viewModel: DetailsViewModel(
                                 model: film,
                                 factProvider: viewModel.factProvider
                             )
