@@ -20,6 +20,8 @@ protocol FactProviding {
     func fetchStarship(named: String) async throws -> Starship
     func fetchVehicles() async throws -> FactListResponse<Vehicle>
     func fetchVehicle(named: String) async throws -> Vehicle
+
+    func fetchFact<Response: PresentableModel>(for url: URL) async throws -> Response
 }
 
 class FactProvider: FactProviding {
@@ -77,6 +79,10 @@ class FactProvider: FactProviding {
 
     func fetchVehicle(named: String) async throws -> Vehicle {
         try await fetchResponse(fact: .vehicles, named: named)
+    }
+
+    func fetchFact<Response: PresentableModel>(for url: URL) async throws -> Response {
+        return try await networkService.fetch(Response.self, from: url)
     }
 }
 

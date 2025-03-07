@@ -8,6 +8,10 @@
 import Foundation
 
 class FactProvidingMock: FactProviding {
+    func fetchFact<Response>(for url: URL) async throws -> Response where Response : PresentableModel {
+        PreviewData.film as! Response
+    }
+    
     func fetchCharacters() async throws -> FactListResponse<Character> {
         FactListResponse(results: [PreviewData.character])
     }

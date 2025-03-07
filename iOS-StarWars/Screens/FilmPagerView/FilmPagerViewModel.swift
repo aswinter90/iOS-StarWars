@@ -15,12 +15,12 @@ enum FilmPagerState {
 
 protocol FilmPagerInteracting: ObservableObject {
     var state: FilmPagerState { get }
-
+    var factProvider: FactProviding { get }
     func fetchFilms() async
 }
 
 class FilmPagerViewModel: FilmPagerInteracting {
-    private let factProvider: FactProviding
+    let factProvider: FactProviding
 
     @Published private(set) var state: FilmPagerState = .loading
 

@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct DetailsView: View {
-    let model: any PresentableModel
+    let viewModel: DetailsViewModel
 
     var body: some View {
         List {
-            ForEach(model.fields, id: \.0) { key, value in
-                HStack(alignment: .top) {
-                    DetailsListItem(key: key, value: "\(value)")
+            ForEach(viewModel.listFields, id: \.key) { field in
+                switch field.value {
+                case let .string(text):
+                    TextListItem(key: field.key, value: text)
+                case let .urls(urls):
+                    UrlsListItem(key: field.key, urls: urls)
                 }
             }
         }
@@ -22,7 +25,7 @@ struct DetailsView: View {
     }
 }
 
-struct DetailsListItem: View {
+struct TextListItem: View {
     private static let verticalLayoutThreshold: CGFloat = 20
 
     let key: String
@@ -38,7 +41,7 @@ struct DetailsListItem: View {
 
                 Spacer()
 
-                Text("\(value)")
+                Text(value)
                     .font(.subheadline)
                     .onGeometryChange(for: CGSize.self) { proxy in
                         proxy.size
@@ -64,8 +67,29 @@ struct DetailsListItem: View {
     }
 }
 
+struct UrlsListItem: View {
+    let key: String
+    let urls: [URL]
+
+    @State private var isExpanded = false
+
+    var body: some View {
+        DisclosureGroup {
+            ForEach(urls, id: \.absoluteString) { url in
+                Text(url.absoluteString)
+                    .font(.subheadline)
+            }
+            .transition(.opacity)
+        } label: {
+            Text(key.capitalized)
+                .font(.headline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+}
+
 #Preview {
     NavigationStack {
-        DetailsView(model: PreviewData.film)
+        DetailsView(viewModel: .init(model: PreviewData.film, factProvider: FactProvidingMock()))
     }
 }

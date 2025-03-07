@@ -37,7 +37,12 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
             TabView {
                 ForEach(films) { film in
                     NavigationLink {
-                        DetailsView(model: film)
+                        DetailsView(
+                            viewModel: .init(
+                                model: film,
+                                factProvider: viewModel.factProvider
+                            )
+                        )
                     } label: {
                         filmTile(for: film, size: proxy.size)
                     }
