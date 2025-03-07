@@ -32,7 +32,7 @@ class DetailsViewModel: ObservableObject {
         model.name
     }
 
-    var listFields: [ListField] {
+    lazy var listFields: [ListField] = {
         model.fields.map { element in
             let (key, value) = element
 
@@ -40,11 +40,16 @@ class DetailsViewModel: ObservableObject {
                 .init(key: key, value: ListFieldValue.urls(value))
             } else if let value = value as? String {
                 .init(key: key, value: ListFieldValue.string(value))
+            } else if let value = value as? Date {
+                .init(
+                    key: key,
+                    value: ListFieldValue.string(Formatters.dayMonthYearFormatter.string(from: value))
+                )
             } else {
                 .init(key: key, value: ListFieldValue.string("\(value)"))
             }
         }
-    }
+    }()
 
     init(model: any PresentableModel, factProvider: FactProviding) {
         self.model = model

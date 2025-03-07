@@ -15,4 +15,10 @@ struct Formatters {
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         return dateFormatter
     }()
+
+    static let dayMonthYearFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.setLocalizedDateFormatFromTemplate("dd.MM.yyyy")
+        return dateFormatter
+    }()
 }
