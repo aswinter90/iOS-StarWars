@@ -27,9 +27,6 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
             }
         }
         .background(.black)
-        .task {
-            await viewModel.fetchFilms()
-        }
     }
 
     func filmPager(for films: [Film]) -> some View {
@@ -54,10 +51,6 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
 
     func filmTile(for film: Film, size: CGSize) -> some View {
         VStack {
-            Text(film.title)
-                .foregroundStyle(.white)
-                .font(.title)
-
             film.image
                 .resizable()
                 .scaledToFit()

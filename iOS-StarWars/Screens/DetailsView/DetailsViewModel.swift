@@ -24,9 +24,9 @@ enum DetailsState {
 
 class DetailsViewModel: ObservableObject {
     let state = DetailsState.loadingFields
+    let factProvider: FactProviding
 
     private let model: any PresentableModel
-    private let factProvider: FactProviding
 
     var navigationTitle: String {
         model.name

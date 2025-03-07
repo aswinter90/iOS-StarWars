@@ -26,6 +26,8 @@ class FilmPagerViewModel: FilmPagerInteracting {
 
     init(factProvider: FactProviding) {
         self.factProvider = factProvider
+
+        Task { await fetchFilms() }
     }
 
     @MainActor

@@ -34,11 +34,11 @@ class FactProvider: FactProviding {
     }
 
     func fetchCharacters() async throws -> FactListResponse<Character> {
-        try await fetchResponse(fact: .characters)
+        try await fetchResponse(fact: .people)
     }
 
     func fetchCharacter(named: String) async throws -> Character {
-        try await fetchResponse(fact: .characters, named: named)
+        try await fetchResponse(fact: .people, named: named)
     }
 
     func fetchFilms() async throws -> FactListResponse<Film> {
@@ -82,7 +82,7 @@ class FactProvider: FactProviding {
     }
 
     func fetchFact<Response: PresentableModel>(for url: URL) async throws -> Response {
-        return try await networkService.fetch(Response.self, from: url)
+        try await networkService.fetch(Response.self, from: url)
     }
 }
 

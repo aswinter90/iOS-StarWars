@@ -17,7 +17,17 @@ struct DetailsView: View {
                 case let .string(text):
                     TextListItem(key: field.key, value: text)
                 case let .urls(urls):
-                    UrlsListItem(key: field.key, urls: urls)
+                    if urls.isEmpty {
+                        EmptyView()
+                    } else {
+                        UrlsListItem(
+                            viewModel: .init(
+                                key: field.key,
+                                urls: urls,
+                                factProvider: viewModel.factProvider
+                            )
+                        )
+                    }
                 }
             }
         }
