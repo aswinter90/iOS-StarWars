@@ -7,8 +7,8 @@
 
 import Foundation
 
-class FilmListInteractingMock: FilmListInteracting {
-    @Published var state: FilmListState = .loading
+class FilmListInteractingMock: FilmPagerInteracting {
+    @Published var state: FilmPagerState = .loading
 
     @MainActor
     func fetchFilms() async {

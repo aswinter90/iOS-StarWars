@@ -7,10 +7,10 @@
 
 import SwiftUI
 
-struct FilmListView<FilmListInteractor: FilmListInteracting>: View {
-    @ObservedObject private var viewModel: FilmListInteractor
+struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
+    @ObservedObject private var viewModel: FilmPagerInteractor
 
-    init(filmListInteractor: FilmListInteractor) {
+    init(filmListInteractor: FilmPagerInteractor) {
         self.viewModel = filmListInteractor
     }
 
@@ -26,7 +26,7 @@ struct FilmListView<FilmListInteractor: FilmListInteracting>: View {
                 Text(error.localizedDescription)
             }
         }
-        .background(.primary)
+        .background(.black)
         .task {
             await viewModel.fetchFilms()
         }
@@ -36,7 +36,11 @@ struct FilmListView<FilmListInteractor: FilmListInteracting>: View {
         GeometryReader { proxy in
             TabView {
                 ForEach(films) { film in
-                    filmTile(for: film, size: proxy.size)
+                    NavigationLink {
+                        DetailsView(model: film)
+                    } label: {
+                        filmTile(for: film, size: proxy.size)
+                    }
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
@@ -44,17 +48,21 @@ struct FilmListView<FilmListInteractor: FilmListInteracting>: View {
     }
 
     func filmTile(for film: Film, size: CGSize) -> some View {
-        film.image
-            .resizable()
-            .scaledToFit()
-            .clipShape(
-                RoundedRectangle(cornerRadius: 24)
-            )
-            .frame(width: size.width - 16, height: size.height - 16)
-            .padding(.horizontal)
+        VStack {
+            Text(film.title)
+                .foregroundStyle(.white)
+                .font(.title)
+
+            film.image
+                .resizable()
+                .scaledToFit()
+                .clipShape(RoundedRectangle(cornerRadius: 24))
+                .frame(width: size.width - 16)
+                .padding(.horizontal)
+        }
     }
 }
 
 #Preview {
-    FilmListView(filmListInteractor: FilmListInteractingMock())
+    FilmPagerView(filmListInteractor: FilmListInteractingMock())
 }

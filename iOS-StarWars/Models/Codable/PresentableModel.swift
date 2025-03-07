@@ -8,3 +8,13 @@
 import Foundation
 
 protocol PresentableModel: Codable, Hashable, Identifiable {}
+
+extension PresentableModel {
+    var fields: [(String, Any)] {
+        Mirror(reflecting: self)
+            .children
+            .compactMap { child in
+                (child.label ?? "", child.value)
+            }
+    }
+}

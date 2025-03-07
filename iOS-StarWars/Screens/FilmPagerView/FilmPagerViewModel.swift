@@ -7,22 +7,22 @@
 
 import Foundation
 
-enum FilmListState {
+enum FilmPagerState {
     case loading
     case loaded([Film])
     case error(Error)
 }
 
-protocol FilmListInteracting: ObservableObject {
-    var state: FilmListState { get }
+protocol FilmPagerInteracting: ObservableObject {
+    var state: FilmPagerState { get }
 
     func fetchFilms() async
 }
 
-class FilmListViewModel: FilmListInteracting {
+class FilmPagerViewModel: FilmPagerInteracting {
     private let factProvider: FactProviding
 
-    @Published private(set) var state: FilmListState = .loading
+    @Published private(set) var state: FilmPagerState = .loading
 
     init(factProvider: FactProviding) {
         self.factProvider = factProvider

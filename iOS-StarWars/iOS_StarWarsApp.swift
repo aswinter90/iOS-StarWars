@@ -12,7 +12,7 @@ struct iOS_StarWarsApp: App {
     var body: some Scene {
         WindowGroup {
             AppView()
-                .preferredColorScheme(.light)
+                .preferredColorScheme(.dark)
         }
     }
 }
