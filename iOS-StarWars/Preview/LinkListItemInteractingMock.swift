@@ -7,17 +7,19 @@
 
 import Foundation
 
-class LinkListItemInteractingMock: LinkListItemInteracting {
+@Observable class LinkListItemInteractingMock: LinkListItemInteracting {
     var state: LinkListItemState
     var key: String
-    var factProvider: any FactProviding = FactProvidingMock()
+    var factProvider: any FactProviding
 
     init(
         state: LinkListItemState = .loaded(models: [PreviewData.species]),
-        key: String = "Species"
+        key: String = "Species",
+        factProvider: any FactProviding = FactProvidingMock()
     ) {
         self.state = state
         self.key = key
+        self.factProvider = factProvider
     }
 
     func fetchModels() async {

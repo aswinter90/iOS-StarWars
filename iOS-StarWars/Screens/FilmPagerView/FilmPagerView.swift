@@ -34,29 +34,28 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
         GeometryReader { proxy in
             TabView {
                 ForEach(films) { film in
-                    NavigationLink {
-                        DetailsView(
-                            viewModel: DetailsViewModel(
-                                model: film,
-                                factProvider: viewModel.factProvider
-                            )
-                        )
-                    } label: {
-                        filmTile(for: film, size: proxy.size)
-                    }
+                    filmTile(for: film)
                 }
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
         }
     }
 
-    func filmTile(for film: Film, size: CGSize) -> some View {
-        film.image
-            .resizable()
-            .scaledToFit()
-            .clipShape(RoundedRectangle(cornerRadius: 24))
-            .frame(width: size.width - 16)
-            .padding(.horizontal)
+    func filmTile(for film: Film) -> some View {
+        NavigationLink {
+            DetailsView(
+                viewModel: DetailsViewModel(
+                    model: film,
+                    factProvider: viewModel.factProvider
+                )
+            )
+        } label: {
+            film.image
+                .resizable()
+                .scaledToFit()
+                .clipShape(RoundedRectangle(cornerRadius: 24))
+                .padding(.horizontal)
+        }
     }
 }
 

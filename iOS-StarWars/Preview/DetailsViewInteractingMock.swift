@@ -9,9 +9,7 @@ import Foundation
 
 class DetailsViewInteractingMock: DetailsViewInteracting {
     var navigationTitle: String = "Details"
-
     var listFields: [DetailsListField]
-
     var factProvider: any FactProviding
     
     init(

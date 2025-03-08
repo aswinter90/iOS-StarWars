@@ -7,12 +7,16 @@
 
 import Foundation
 
-class FilmListInteractingMock: FilmPagerInteracting {
-    @Published var state: FilmPagerState
-    var factProvider: FactProviding = FactProvidingMock()
+@Observable class FilmListInteractingMock: FilmPagerInteracting {
+    var state: FilmPagerState
+    var factProvider: any FactProviding
 
-    init(state: FilmPagerState = .loaded(PreviewData.films)) {
+    init(
+        state: FilmPagerState = .loaded(PreviewData.films),
+        factProvider: any FactProviding = FactProvidingMock()
+    ) {
         self.state = state
+        self.factProvider = factProvider
     }
 
     @MainActor
