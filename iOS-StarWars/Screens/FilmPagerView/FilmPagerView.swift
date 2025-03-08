@@ -28,6 +28,9 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
             }
         }
         .navigationTitle(viewModel.navigationTitle)
+        .onFirstAppearance {
+            Task { await viewModel.fetchFilms() }
+        }
     }
 
     private func filmPager(for films: [Film]) -> some View {

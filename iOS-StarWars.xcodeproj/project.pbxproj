@@ -27,6 +27,7 @@
 		1455C5FE2D783F5300341277 /* iOS-StarWars.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "iOS-StarWars.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1455C60F2D783F5400341277 /* iOS-StarWarsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-StarWarsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1455C6192D783F5400341277 /* iOS-StarWarsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iOS-StarWarsUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		147B75712D7C5A6900C6117A /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS18.2.sdk/System/Library/Frameworks/SwiftUI.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -78,6 +79,7 @@
 				1455C6002D783F5300341277 /* iOS-StarWars */,
 				1455C6122D783F5400341277 /* iOS-StarWarsTests */,
 				1455C61C2D783F5400341277 /* iOS-StarWarsUITests */,
+				147B75702D7C5A6900C6117A /* Frameworks */,
 				1455C5FF2D783F5300341277 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +92,14 @@
 				1455C6192D783F5400341277 /* iOS-StarWarsUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		147B75702D7C5A6900C6117A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				147B75712D7C5A6900C6117A /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

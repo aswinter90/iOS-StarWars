@@ -7,11 +7,12 @@
 
 import Foundation
 
-enum CommonError: Error {
+enum CommonError: Error, Equatable {
     case connectionIssue
     case timeout
     case decodingFailed(description: String)
     case emptyResponse
+    case unsupportedResourceURL(url: URL)
     case generic(description: String = "")
 
     var description: String {
@@ -24,6 +25,8 @@ enum CommonError: Error {
             "Failed to decode data from the server. Error: \(description)"
         case .emptyResponse:
             "The server returned no data. Please try again later."
+        case let .unsupportedResourceURL(url):
+            "The format or content of the provided resource URL is unexpected: \(url.absoluteString)"
         case let .generic(description):
             "An unexpected error occurred: \(description). Please try again later."
         }

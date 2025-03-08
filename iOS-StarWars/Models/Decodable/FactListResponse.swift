@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct FactListResponse<T: PresentableModel>: Decodable {
+struct FactListResponse<T: PresentableModel>: Decodable, Equatable {
     let results: [T]
 }

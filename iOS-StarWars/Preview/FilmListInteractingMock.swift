@@ -21,9 +21,5 @@ import Foundation
     }
 
     @MainActor
-    func fetchFilms() async {
-        state = .loading
-        try? await Task.sleep(seconds: 1)
-        state = .loaded(PreviewData.films)
-    }
+    func fetchFilms() async {}
 }

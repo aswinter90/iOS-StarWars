@@ -35,12 +35,11 @@ protocol LinkListItemInteracting {
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
-    func fetchModels() async {
-        await MainActor.run {
-            state = .loading(placeholders: urls.map { $0.absoluteString })
-        }
+    @MainActor func fetchModels() async {
+        state = .loading(placeholders: urls.map { $0.absoluteString })
 
         guard let firstURL = urls.first else {
+            state = .error(.generic(description: "Invalid resource URL"))
             return
         }
 
@@ -48,6 +47,7 @@ protocol LinkListItemInteracting {
         guard let fact = StarWarsFact(from: firstURL) else {
             // swiftlint:disable:next line_length
             debugPrint("Error: Failed to determine response model from URL: \(firstURL). Second to last path component does not match any known `StarWarsFact`")
+            state = .error(.unsupportedResourceURL(url: firstURL))
             return
         }
 
@@ -149,12 +149,10 @@ protocol LinkListItemInteracting {
             }
         }
 
-        await MainActor.run {
-            if models.isEmpty {
-                state = .error(.generic(description: "Failed to load data for \(key) section."))
-            } else {
-                state = .loaded(models: models.compactMap { $0 })
-            }
+        if models.isEmpty {
+            state = .error(.generic(description: "Failed to load data for \(key) section."))
+        } else {
+            state = .loaded(models: models.compactMap { $0 })
         }
     }
 }
