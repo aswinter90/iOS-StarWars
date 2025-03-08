@@ -13,7 +13,7 @@ The next steps to improve the application could be:
 - A watch list screen where users could find their favorite facts
 
 <div style="display: flex; flex-wrap: wrap;">
-  <img src="https://github.com/user-attachments/assets/fbfd3b91-5a0e-4559-815a-3c0d04c936f0" alt="1" style="width: 14%;" />
+  <img src="https://github.com/user-attachments/assets/fbfd3b91-5a0e-4559-815a-3c0d04c936f0" alt="1" />
   <img src="https://github.com/user-attachments/assets/12fde79a-502d-4fa2-b061-6c4446c79282" alt="2" style="width: 14%;" />
   <img src="https://github.com/user-attachments/assets/97dee767-9ebf-41ac-afac-d26f3a50a3f4" alt="3" style="width: 14%;" />
   <img src="https://github.com/user-attachments/assets/957d0057-b945-49af-af87-a78a094e8916" alt="4" style="width: 14%;" />
