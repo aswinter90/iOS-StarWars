@@ -12,6 +12,8 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
 
     init(filmListInteractor: FilmPagerInteractor) {
         self.viewModel = filmListInteractor
+
+        UIPageControl.appearance().currentPageIndicatorTintColor = .red
     }
 
     var body: some View {
