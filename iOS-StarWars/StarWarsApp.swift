@@ -1,5 +1,5 @@
 //
-//  iOS_StarWarsApp.swift
+//  StarWarsApp.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 05.03.25.
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct iOS_StarWarsApp: App {
+struct StarWarsApp: App {
     var body: some Scene {
         WindowGroup {
             AppView()

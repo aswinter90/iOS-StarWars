@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// swiftlint:disable:next generic_type_name
 struct DetailsView<DetailsViewInteractor: DetailsViewInteracting>: View {
     let viewModel: DetailsViewInteractor
 

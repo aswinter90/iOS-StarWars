@@ -34,6 +34,7 @@ protocol LinkListItemInteracting {
         self.factProvider = factProvider
     }
 
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func fetchModels() async {
         await MainActor.run {
             state = .loading(placeholders: urls.map { $0.absoluteString })
@@ -45,13 +46,16 @@ protocol LinkListItemInteracting {
 
         // For simplicity we assume that all URLs in the list point to the same resource type
         guard let fact = StarWarsFact(from: firstURL) else {
+            // swiftlint:disable:next line_length
             debugPrint("Error: Failed to determine response model from URL: \(firstURL). Second to last path component does not match any known `StarWarsFact`")
             return
         }
 
+        // swiftlint:disable line_length
         // After trying to make this huge statement more generic, I decided to go with a pragmatic approach.
         // Task Groups are difficult to handle and do not lightly accept protocols like the `PresentableModel` as result type, which would save a lot of redundancy here.
         // Specific errors thrown inside the task groups are also ignored on purpose.
+        // swiftlint:enable line_length
         let models: [(any PresentableModel)?] = switch fact {
         case .films:
             await withTaskGroup(of: Film?.self) { taskGroup in

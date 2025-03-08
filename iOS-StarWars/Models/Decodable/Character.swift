@@ -1,5 +1,5 @@
 //
-//  Person.swift
+//  Character.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 05.03.25.

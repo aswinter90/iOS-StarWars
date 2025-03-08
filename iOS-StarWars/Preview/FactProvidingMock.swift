@@ -1,5 +1,5 @@
 //
-//  FactProviderMock.swift
+//  FactProvidingMock.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 06.03.25.
@@ -12,7 +12,8 @@ class FactProvidingMock: FactProviding {
         FactListResponse(results: [PreviewData.film])
     }
 
-    func fetchFact<Response>(for url: URL) async throws(CommonError) -> Response where Response : PresentableModel {
+    func fetchFact<Response>(for url: URL) async throws(CommonError) -> Response where Response: PresentableModel {
+        // swiftlint:disable:next force_cast
         PreviewData.planet as! Response
     }
 }

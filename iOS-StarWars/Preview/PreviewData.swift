@@ -1,5 +1,5 @@
 //
-//  StarticFacts.swift
+//  PreviewData.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 05.03.25.
@@ -7,6 +7,7 @@
 
 import Foundation
 
+// swiftlint:disable line_length type_body_length
 enum PreviewData {
     static let character: Character = """
         {
@@ -305,9 +306,12 @@ enum PreviewData {
 }
 
 private extension Data {
-    func decoded<T: Decodable>(to: T.Type) -> T {
+    // swiftlint:disable:next identifier_name
+    func decoded<Response: Decodable>(to: Response.Type) -> Response {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(Formatters.iso8601Formatter)
-        return try! decoder.decode(T.self, from: self)
+        // swiftlint:disable:next force_try
+        return try! decoder.decode(Response.self, from: self)
     }
 }
+// swiftlint:enable line_length type_body_length

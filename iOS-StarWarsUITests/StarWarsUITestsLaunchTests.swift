@@ -7,7 +7,7 @@
 
 import XCTest
 
-final class iOS_StarWarsUITestsLaunchTests: XCTestCase {
+final class StarWarsUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

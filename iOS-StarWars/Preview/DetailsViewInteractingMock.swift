@@ -11,7 +11,7 @@ class DetailsViewInteractingMock: DetailsViewInteracting {
     var navigationTitle: String = "Details"
     var listFields: [DetailsListField]
     var factProvider: any FactProviding
-    
+
     init(
         listFields: [DetailsListField] = [
             .init(key: "Name", value: .string("Luke Skywalker")),
