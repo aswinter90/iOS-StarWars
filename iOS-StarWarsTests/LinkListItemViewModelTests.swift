@@ -39,7 +39,6 @@ struct LinkListItemViewModelTests {
         }
     }
 
-    @MainActor
     @Test func testFetchModelsErrorWithUnsupportedURL() async throws {
         let url = URL(string: "https://google.com")!
 
@@ -55,6 +54,26 @@ struct LinkListItemViewModelTests {
         switch subject.state {
         case let .error(error):
             assert(error == CommonError.unsupportedResourceURL(url: url))
+        default:
+            Issue.record("Test failed: Unexpected case: \(subject.state)")
+        }
+    }
+
+    @Test func testFetchModelsErrorWithEmptyResponse() async throws {
+        let url = URL(string: "https://swapi.dev/api/vehicles/1")!
+
+        let subject = makeSubject(
+            key: "Vehicles",
+            urls: [url]
+        )
+
+        factProvidingMock.fetchFactError = CommonError.emptyResponse
+
+        await subject.fetchModels()
+
+        switch subject.state {
+        case let .error(error):
+            assert(error == CommonError.emptyResponse)
         default:
             Issue.record("Test failed: Unexpected case: \(subject.state)")
         }

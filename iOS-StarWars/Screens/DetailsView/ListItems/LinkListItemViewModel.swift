@@ -34,7 +34,6 @@ protocol LinkListItemInteracting {
         self.factProvider = factProvider
     }
 
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
     @MainActor func fetchModels() async {
         state = .loading(placeholders: urls.map { $0.absoluteString })
 
@@ -53,104 +52,38 @@ protocol LinkListItemInteracting {
 
         // swiftlint:disable line_length
         // After trying to make this huge statement more generic, I decided to go with a pragmatic approach.
-        // Task Groups are difficult to handle and do not lightly accept protocols like the `PresentableModel` as result type, which would save a lot of redundancy here.
+        // Task Groups are difficult to handle and do not lightly accept protocols like the `PresentableModel` as a result type, which would save a lot of redundancy here.
         // Specific errors thrown inside the task groups are also ignored on purpose.
         // swiftlint:enable line_length
         let models: [(any PresentableModel)?] = switch fact {
         case .films:
-            await withTaskGroup(of: Film?.self) { taskGroup in
-                urls.forEach { url in
-                    taskGroup.addTask {
-                        try? await self.factProvider.fetchFact(for: url)
-                    }
-                }
-
-                var results = [Film]()
-                for await value in taskGroup {
-                    value.map { results.append($0) }
-                }
-
-                return results
-            }
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
+                try await self.factProvider.fetchFact(for: url)
+            }) as [Film]
         case .people:
-            await withTaskGroup(of: Character?.self) { taskGroup in
-                urls.forEach { url in
-                    taskGroup.addTask {
-                        try? await self.factProvider.fetchFact(for: url)
-                    }
-                }
-
-                var results = [Character]()
-                for await value in taskGroup {
-                    value.map { results.append($0) }
-                }
-
-                return results
-            }
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
+                try await self.factProvider.fetchFact(for: url)
+            }) as [Character]
         case .planets:
-            await withTaskGroup(of: Planet?.self) { taskGroup in
-                urls.forEach { url in
-                    taskGroup.addTask {
-                        try? await self.factProvider.fetchFact(for: url)
-                    }
-                }
-
-                var results = [Planet]()
-                for await value in taskGroup {
-                    value.map { results.append($0) }
-                }
-
-                return results
-            }
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
+                try await self.factProvider.fetchFact(for: url)
+            }) as [Planet]
         case .species:
-            await withTaskGroup(of: Species?.self) { taskGroup in
-                urls.forEach { url in
-                    taskGroup.addTask {
-                        try? await self.factProvider.fetchFact(for: url)
-                    }
-                }
-
-                var results = [Species]()
-                for await value in taskGroup {
-                    value.map { results.append($0) }
-                }
-
-                return results
-            }
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
+                try await self.factProvider.fetchFact(for: url)
+            }) as [Species]
         case .starships:
-            await withTaskGroup(of: Starship?.self) { taskGroup in
-                urls.forEach { url in
-                    taskGroup.addTask {
-                        try? await self.factProvider.fetchFact(for: url)
-                    }
-                }
-
-                var results = [Starship]()
-                for await value in taskGroup {
-                    value.map { results.append($0) }
-                }
-
-                return results
-            }
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
+                try await self.factProvider.fetchFact(for: url)
+            }) as [Starship]
         case .vehicles:
-            await withTaskGroup(of: Vehicle?.self) { taskGroup in
-                urls.forEach { url in
-                    taskGroup.addTask {
-                        try? await self.factProvider.fetchFact(for: url)
-                    }
-                }
-
-                var results = [Vehicle]()
-                for await value in taskGroup {
-                    value.map { results.append($0) }
-                }
-
-                return results
-            }
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
+                try await self.factProvider.fetchFact(for: url)
+            }) as [Vehicle]
         }
 
         if models.isEmpty {
-            state = .error(.generic(description: "Failed to load data for \(key) section."))
+            state = .error(.emptyResponse)
         } else {
             state = .loaded(models: models.compactMap { $0 })
         }
