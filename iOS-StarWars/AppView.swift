@@ -15,7 +15,7 @@ public struct AppView: View {
 
     public var body: some View {
         NavigationStack {
-            FilmPagerView(filmListInteractor: FilmPagerViewModel(factProvider: factProvider))
+            FilmPagerView(filmPagerInteractor: FilmPagerViewModel(factProvider: factProvider))
         }
     }
 }

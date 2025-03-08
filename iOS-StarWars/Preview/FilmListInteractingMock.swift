@@ -7,7 +7,7 @@
 
 import Foundation
 
-@Observable class FilmListInteractingMock: FilmPagerInteracting {
+@Observable class FilmPagerInteractingMock: FilmPagerInteracting {
     let navigationTitle = "Star Wars Films"
     var state: FilmPagerState
     var factProvider: any FactProviding

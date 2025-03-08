@@ -10,8 +10,8 @@ import SwiftUI
 struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
     private var viewModel: FilmPagerInteractor
 
-    init(filmListInteractor: FilmPagerInteractor) {
-        self.viewModel = filmListInteractor
+    init(filmPagerInteractor: FilmPagerInteractor) {
+        self.viewModel = filmPagerInteractor
         updatePageControlStyle()
     }
 
@@ -65,18 +65,18 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
 }
 
 #Preview("Results") {
-    FilmPagerView(filmListInteractor: FilmListInteractingMock())
+    FilmPagerView(filmPagerInteractor: FilmPagerInteractingMock())
         .preferredColorScheme(.dark)
 }
 
 #Preview("Loading") {
-    FilmPagerView(filmListInteractor: FilmListInteractingMock(state: .loading))
+    FilmPagerView(filmPagerInteractor: FilmPagerInteractingMock(state: .loading))
         .preferredColorScheme(.dark)
 }
 
 #Preview("Error") {
     FilmPagerView(
-        filmListInteractor: FilmListInteractingMock(state: .error(CommonError.connectionIssue))
+        filmPagerInteractor: FilmPagerInteractingMock(state: .error(CommonError.connectionIssue))
     )
     .preferredColorScheme(.dark)
 }
