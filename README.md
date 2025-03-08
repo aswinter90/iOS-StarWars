@@ -4,7 +4,7 @@ This iOS project contains a simple showcase application which integrates the Sta
 
 The app was build with SwiftUI and Swift Concurrency and targets iOS 17+, [which covers most of the available iOS devices today](https://telemetrydeck.com/survey/apple/iOS/majorSystemVersions/).
 
-Images for the movie posters were added to the project manually as the API does not provide anything besides text data.
+Images for the movie posters were added to the project manually as the API only provides text data.
 The effort for adding tests was not completed, but some of the most important entities were covered with unit- and snapshot-tests.
 For the reason of simplicity the app only works in portrait mode on phones.
 
