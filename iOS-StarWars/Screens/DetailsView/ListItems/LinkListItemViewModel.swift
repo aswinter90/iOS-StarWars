@@ -13,17 +13,17 @@ enum LinkListItemState {
     case error(CommonError)
 }
 
-protocol LinkListItemInteracting: ObservableObject {
+protocol LinkListItemInteracting {
     var state: LinkListItemState { get }
     var key: String { get }
     var factProvider: FactProviding { get }
     func fetchModels() async
 }
 
-class LinkListItemViewModel: LinkListItemInteracting {
+@Observable class LinkListItemViewModel: LinkListItemInteracting {
     let factProvider: FactProviding
 
-    @Published var state: LinkListItemState
+    private(set) var state: LinkListItemState
     let key: String
 
     private let urls: [URL]

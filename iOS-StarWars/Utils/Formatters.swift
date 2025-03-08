@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Formatters {
+enum Formatters {
     static let iso8601Formatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
@@ -18,7 +18,7 @@ struct Formatters {
 
     static let commonDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.setLocalizedDateFormatFromTemplate("dd.MM.yyyy")
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
         return dateFormatter
     }()
 }

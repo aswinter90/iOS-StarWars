@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
-    @ObservedObject private var viewModel: FilmPagerInteractor
+    private var viewModel: FilmPagerInteractor
 
     init(filmListInteractor: FilmPagerInteractor) {
         self.viewModel = filmListInteractor

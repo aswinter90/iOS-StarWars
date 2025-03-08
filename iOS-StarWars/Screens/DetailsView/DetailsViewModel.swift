@@ -17,7 +17,7 @@ struct DetailsListField {
     let value: Value
 }
 
-protocol DetailsViewInteracting: ObservableObject {
+protocol DetailsViewInteracting {
     var navigationTitle: String { get }
     var listFields: [DetailsListField] { get }
     var factProvider: FactProviding { get }
@@ -43,6 +43,7 @@ class DetailsViewModel: DetailsViewInteracting {
             } else if let value = value as? URL {
                 .init(key: key, value: .urls([value]))
             } else if let value = value as? String {
+                // Skip the name and title fields as they are already shown in the navigation title
                 Self.nameFieldKeys.contains(key) ? nil : .init(key: key, value: .string(value))
             } else if let value = value as? Date {
                 .init(

@@ -13,16 +13,16 @@ enum FilmPagerState {
     case error(CommonError)
 }
 
-protocol FilmPagerInteracting: ObservableObject {
+protocol FilmPagerInteracting {
     var state: FilmPagerState { get }
     var factProvider: FactProviding { get }
     func fetchFilms() async
 }
 
-class FilmPagerViewModel: FilmPagerInteracting {
+@Observable class FilmPagerViewModel: FilmPagerInteracting {
     let factProvider: FactProviding
 
-    @Published private(set) var state: FilmPagerState = .loading
+    private(set) var state: FilmPagerState = .loading
 
     init(factProvider: FactProviding) {
         self.factProvider = factProvider

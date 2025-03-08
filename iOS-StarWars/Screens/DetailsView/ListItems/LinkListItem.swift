@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
-    @ObservedObject private var viewModel: LinkListInteractor
-    @State private var isExpanded = true
+    private let viewModel: LinkListInteractor
+    @State private var isExpanded: Bool = false
+    private let isExpandedBinding: Binding<Bool>?
 
-    init(viewModel: LinkListInteractor, isExpanded: Bool = false) {
+    init(viewModel: LinkListInteractor, isExpanded: Binding<Bool>? = nil) {
         self.viewModel = viewModel
-        _isExpanded = State(initialValue: isExpanded)
+        self.isExpandedBinding = isExpanded
     }
 
     var body: some View {
-        DisclosureGroup(isExpanded: $isExpanded) {
+        DisclosureGroup(isExpanded: isExpandedBinding ?? $isExpanded) {
             switch viewModel.state {
             case let .loading(placeholders):
                 loadingView(for: placeholders)
@@ -68,34 +69,40 @@ struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
 }
 
 #Preview("Results") {
+    @Previewable @State var isExpanded = true
+
     NavigationStack {
         List {
-            LinkListItem(viewModel: LinkListItemInteractingMock(), isExpanded: true)
+            LinkListItem(viewModel: LinkListItemInteractingMock(), isExpanded: $isExpanded)
         }
     }
 }
 
 #Preview("Loading") {
+    @Previewable @State var isExpanded = true
+
     NavigationStack {
         List {
             LinkListItem(
                 viewModel:LinkListItemInteractingMock(
                     state: .loading(placeholders: ["This steak is a little on the chewier side"])
                 ),
-                isExpanded: true
+                isExpanded: $isExpanded
             )
         }
     }
 }
 
 #Preview("Error") {
+    @Previewable @State var isExpanded = true
+
     NavigationStack {
         List {
             LinkListItem(
                 viewModel:LinkListItemInteractingMock(
                     state: .error(.generic(description: "These are not the droids you are looking for"))
                 ),
-                isExpanded: true
+                isExpanded: $isExpanded
             )
         }
     }
