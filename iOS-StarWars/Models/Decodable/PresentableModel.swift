@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol PresentableModel: Codable, Hashable, Identifiable {
+protocol PresentableModel: Decodable, Hashable, Identifiable {
     var name: String { get }
 }
 
 extension PresentableModel {
-    var fields: [(String, Any)] {
+    var properties: [(String, Any)] {
         Mirror(reflecting: self)
             .children
             .compactMap { child in

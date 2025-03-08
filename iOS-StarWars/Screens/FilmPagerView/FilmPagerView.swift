@@ -1,5 +1,5 @@
 //
-//  FactListView.swift
+//  FilmPagerView.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 05.03.25.
@@ -12,8 +12,7 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
 
     init(filmListInteractor: FilmPagerInteractor) {
         self.viewModel = filmListInteractor
-
-        UIPageControl.appearance().currentPageIndicatorTintColor = .red
+        updatePageControlStyle()
     }
 
     var body: some View {
@@ -28,20 +27,19 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
                 ErrorView(error: error, onRetry: viewModel.fetchFilms)
             }
         }
+        .navigationTitle(viewModel.navigationTitle)
     }
 
-    func filmPager(for films: [Film]) -> some View {
-        GeometryReader { proxy in
-            TabView {
-                ForEach(films) { film in
-                    filmTile(for: film)
-                }
+    private func filmPager(for films: [Film]) -> some View {
+        TabView {
+            ForEach(films) { film in
+                filmTile(for: film)
             }
-            .tabViewStyle(.page(indexDisplayMode: .always))
         }
+        .tabViewStyle(.page(indexDisplayMode: .always))
     }
 
-    func filmTile(for film: Film) -> some View {
+    private func filmTile(for film: Film) -> some View {
         NavigationLink {
             DetailsView(
                 viewModel: DetailsViewModel(
@@ -56,6 +54,10 @@ struct FilmPagerView<FilmPagerInteractor: FilmPagerInteracting>: View {
                 .clipShape(RoundedRectangle(cornerRadius: 24))
                 .padding(.horizontal)
         }
+    }
+
+    private func updatePageControlStyle() {
+        UIPageControl.appearance().currentPageIndicatorTintColor = .red
     }
 }
 

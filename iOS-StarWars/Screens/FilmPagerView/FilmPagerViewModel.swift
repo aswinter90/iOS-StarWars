@@ -1,5 +1,5 @@
 //
-//  FactListViewModel.swift
+//  FilmPagerViewModel.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 05.03.25.
@@ -15,14 +15,15 @@ enum FilmPagerState {
 
 protocol FilmPagerInteracting {
     var state: FilmPagerState { get }
+    var navigationTitle: String { get }
     var factProvider: FactProviding { get }
     func fetchFilms() async
 }
 
 @Observable class FilmPagerViewModel: FilmPagerInteracting {
-    let factProvider: FactProviding
-
     private(set) var state: FilmPagerState = .loading
+    let navigationTitle: String = "Star Wars Films"
+    let factProvider: FactProviding
 
     init(factProvider: FactProviding) {
         self.factProvider = factProvider
@@ -35,11 +36,16 @@ protocol FilmPagerInteracting {
         state = .loading
 
         // Min duration for loading indicator to be displayed
-        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        try? await Task.sleep(seconds: 1)
 
         do {
-            let factResponse: FactListResponse<Film> = try await factProvider.fetchFilms()
-            state = .loaded(factResponse.results)
+            let filmResponse: FactListResponse<Film> = try await factProvider.fetchFilms()
+
+            if filmResponse.results.isEmpty {
+                state = .error(.emptyResponse)
+            } else {
+                state = .loaded(filmResponse.results)
+            }
         } catch {
             state = .error(error)
         }

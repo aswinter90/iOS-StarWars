@@ -25,7 +25,7 @@ import Foundation
     func fetchModels() async {
         state = .loading(placeholders: ["https://swapi.dev/api/species/1/"])
 
-        try? await Task.sleep(nanoseconds: 1_000_000)
+        try? await Task.sleep(seconds: 1)
 
         state = .loaded(models: [PreviewData.species])
     }

@@ -8,6 +8,7 @@
 import Foundation
 
 @Observable class FilmListInteractingMock: FilmPagerInteracting {
+    let navigationTitle = "Star Wars Films"
     var state: FilmPagerState
     var factProvider: any FactProviding
 
@@ -22,7 +23,7 @@ import Foundation
     @MainActor
     func fetchFilms() async {
         state = .loading
-        try? await Task.sleep(nanoseconds: 1_000_000_000)
+        try? await Task.sleep(seconds: 1)
         state = .loaded(PreviewData.films)
     }
 }

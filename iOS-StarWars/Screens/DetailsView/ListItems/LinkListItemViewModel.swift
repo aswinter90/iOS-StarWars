@@ -21,10 +21,9 @@ protocol LinkListItemInteracting {
 }
 
 @Observable class LinkListItemViewModel: LinkListItemInteracting {
-    let factProvider: FactProviding
-
     private(set) var state: LinkListItemState
     let key: String
+    let factProvider: FactProviding
 
     private let urls: [URL]
 
@@ -50,8 +49,9 @@ protocol LinkListItemInteracting {
             return
         }
 
-        // After trying for some time to make this huge statement more generic, I decided to go with a pragmatic approach.
-        // TaskGroups are difficult to handle and do not lightly accept protocols like the `PresentableModel` as result type.
+        // After trying to make this huge statement more generic, I decided to go with a pragmatic approach.
+        // Task Groups are difficult to handle and do not lightly accept protocols like the `PresentableModel` as result type, which would save a lot of redundancy here.
+        // Specific errors thrown inside the task groups are also ignored on purpose.
         let models: [(any PresentableModel)?] = switch fact {
         case .films:
             await withTaskGroup(of: Film?.self) { taskGroup in
@@ -62,7 +62,6 @@ protocol LinkListItemInteracting {
                 }
 
                 var results = [Film]()
-
                 for await value in taskGroup {
                     value.map { results.append($0) }
                 }
@@ -78,7 +77,6 @@ protocol LinkListItemInteracting {
                 }
 
                 var results = [Character]()
-
                 for await value in taskGroup {
                     value.map { results.append($0) }
                 }
@@ -94,7 +92,6 @@ protocol LinkListItemInteracting {
                 }
 
                 var results = [Planet]()
-
                 for await value in taskGroup {
                     value.map { results.append($0) }
                 }
@@ -110,7 +107,6 @@ protocol LinkListItemInteracting {
                 }
 
                 var results = [Species]()
-
                 for await value in taskGroup {
                     value.map { results.append($0) }
                 }
@@ -126,7 +122,6 @@ protocol LinkListItemInteracting {
                 }
 
                 var results = [Starship]()
-
                 for await value in taskGroup {
                     value.map { results.append($0) }
                 }
@@ -142,7 +137,6 @@ protocol LinkListItemInteracting {
                 }
 
                 var results = [Vehicle]()
-
                 for await value in taskGroup {
                     value.map { results.append($0) }
                 }

@@ -9,6 +9,7 @@ import Foundation
 
 enum Formatters {
     static let iso8601Formatter: DateFormatter = {
+        // This could also be replaced with a dedicated `ISO8601DateFormatter`, but that would require more boilerplate on the side of the `JSONDecoder` when defining its `dateDecodingStrategy`.
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
@@ -16,7 +17,7 @@ enum Formatters {
         return dateFormatter
     }()
 
-    static let commonDateFormatter: DateFormatter = {
+    static let listItemDateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
         dateFormatter.setLocalizedDateFormatFromTemplate("yyyy-MM-dd")
         return dateFormatter

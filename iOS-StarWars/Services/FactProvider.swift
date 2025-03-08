@@ -22,17 +22,11 @@ class FactProvider: FactProviding {
     }
 
     func fetchFilms() async throws(CommonError) -> FactListResponse<Film> {
-        try await fetchResponse(fact: .films)
+        let url = endpointProvider.makeURL(for: .films)
+        return try await networkService.fetch(FactListResponse<Film>.self, from: url)
     }
 
     func fetchFact<Response: PresentableModel>(for url: URL) async throws(CommonError) -> Response {
         try await networkService.fetch(Response.self, from: url)
-    }
-}
-
-private extension FactProvider {
-    func fetchResponse<T: Decodable>(fact: StarWarsFact, named: String? = nil) async throws(CommonError) -> T {
-        let url = endpointProvider.makeURL(for: fact, queryParameter: named)
-        return try await networkService.fetch(T.self, from: url)
     }
 }

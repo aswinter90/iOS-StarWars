@@ -1,5 +1,5 @@
 //
-//  Endpoint.swift
+//  EndpointFactory.swift
 //  iOS-StarWars
 //
 //  Created by Arne-Sebastian Winter on 05.03.25.
@@ -8,7 +8,7 @@
 import Foundation
 
 protocol EndpointProviding {
-    func makeURL(for fact: StarWarsFact, queryParameter: String?) -> URL
+    func makeURL(for fact: StarWarsFact) -> URL
 }
 
 struct EndpointFactory: EndpointProviding {
@@ -19,9 +19,7 @@ struct EndpointFactory: EndpointProviding {
         return url
     }()
 
-    func makeURL(for fact: StarWarsFact, queryParameter: String?) -> URL {
-        baseURL
-            .appendingPathComponent(fact.rawValue)
-            .appendingPathComponent(queryParameter ?? "")
+    func makeURL(for fact: StarWarsFact) -> URL {
+        baseURL.appendingPathComponent(fact.rawValue)
     }
 }

@@ -12,7 +12,8 @@ protocol Networking {
 }
 
 class NetworkService {
-    private static let maxNumberOfRetries = 3
+    private static let maxNumberOfRetries = 2
+
     private var decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(Formatters.iso8601Formatter)

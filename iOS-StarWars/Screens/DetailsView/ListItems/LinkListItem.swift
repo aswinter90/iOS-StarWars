@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
     private let viewModel: LinkListInteractor
+
     @State private var isExpanded: Bool = false
     private let isExpandedBinding: Binding<Bool>?
 
@@ -76,6 +77,7 @@ struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
             LinkListItem(viewModel: LinkListItemInteractingMock(), isExpanded: $isExpanded)
         }
     }
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Loading") {
@@ -84,13 +86,14 @@ struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
     NavigationStack {
         List {
             LinkListItem(
-                viewModel:LinkListItemInteractingMock(
+                viewModel: LinkListItemInteractingMock(
                     state: .loading(placeholders: ["This steak is a little on the chewier side"])
                 ),
                 isExpanded: $isExpanded
             )
         }
     }
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Error") {
@@ -99,7 +102,7 @@ struct LinkListItem<LinkListInteractor: LinkListItemInteracting>: View {
     NavigationStack {
         List {
             LinkListItem(
-                viewModel:LinkListItemInteractingMock(
+                viewModel: LinkListItemInteractingMock(
                     state: .error(.generic(description: "These are not the droids you are looking for"))
                 ),
                 isExpanded: $isExpanded

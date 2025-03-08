@@ -17,6 +17,7 @@ enum StarWarsFact: String {
 }
 
 extension StarWarsFact {
+    /// Try to create a StarWarsFact from a URL path. The path should have the following format: `/api/films/1/`
     init?(from resourceURL: URL) {
         let pathComponents = resourceURL.pathComponents.filter { $0 != "/" }
 

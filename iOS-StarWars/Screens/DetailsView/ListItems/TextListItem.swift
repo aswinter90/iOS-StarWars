@@ -26,4 +26,5 @@ struct TextListItem: View {
     List {
         TextListItem(key: "Author", value: "George Lucas")
     }
+    .preferredColorScheme(.dark)
 }

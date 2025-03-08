@@ -19,23 +19,22 @@ struct DetailsListField {
 
 protocol DetailsViewInteracting {
     var navigationTitle: String { get }
-    var listFields: [DetailsListField] { get }
     var factProvider: FactProviding { get }
+    var listFields: [DetailsListField] { get }
 }
 
 class DetailsViewModel: DetailsViewInteracting {
     private static let nameFieldKeys = ["name", "title"]
 
-    let factProvider: FactProviding
-
-    private let model: any PresentableModel
-
     var navigationTitle: String {
         model.name
     }
 
+    private let model: any PresentableModel
+    let factProvider: FactProviding
+
     lazy var listFields: [DetailsListField] = {
-        model.fields.compactMap { element in
+        model.properties.compactMap { element in
             let (key, value) = element
 
             return if let value = value as? [URL] {
@@ -48,7 +47,7 @@ class DetailsViewModel: DetailsViewInteracting {
             } else if let value = value as? Date {
                 .init(
                     key: key,
-                    value: .string(Formatters.commonDateFormatter.string(from: value))
+                    value: .string(Formatters.listItemDateFormatter.string(from: value))
                 )
             } else {
                 .init(key: key, value: .string("\(value)"))
