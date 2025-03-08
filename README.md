@@ -6,6 +6,7 @@ The app was build with SwiftUI and Swift Concurrency and targets iOS 17+, [which
 
 Images for the movie posters were added to the project manually as the API does not provide anything besides text data.
 The effort for adding tests was not completed, but some of the most important entities were covered with unit- and snapshot-tests.
+For the reason of simplicity the app only works in portrait mode on phones.
 
 The next steps to improve the application could be:
 - A better approach for creating and sending fetching requests when a URL section on the details screen is opened, to keep the data traffic lower.
