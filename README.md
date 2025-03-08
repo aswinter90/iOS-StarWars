@@ -8,9 +8,10 @@ Images for the movie posters were added to the project manually as the API does 
 The effort for adding tests was not completed, but some of the most important entities were covered with unit- and snapshot-tests.
 
 The next steps to improve the application could be:
+- A better approach for creating and sending fetching requests when a URL section on the details screen is opened, to keep the data traffic lower.
 - An offline-mode by persisting the loaded data on disk.
-- A search for finding specific information
-- A watch list screen where users could find their favorite facts
+- A search bar for finding specific information.
+- A watch list screen where users could find their favorite facts.
 
 <div style="display: flex; flex-wrap: wrap;">
   <img src="https://github.com/user-attachments/assets/1d3e6d3a-1016-4908-8e10-b3f1a3bacb2d" alt="1" style="width: 14%;" />
