@@ -2,16 +2,16 @@
 
 This iOS project contains a simple showcase application which integrates the Star Wars API [SWAPI](https://swapi.dev/) to display information about the popular movie franchise. After selecting a film the user can navigate further to other detail screens for related information about characters, planets, starships, etc.
 
-The app was build with SwiftUI and Swift Concurrency and targets iOS 17+, [which covers most of the available iOS devices today](https://telemetrydeck.com/survey/apple/iOS/majorSystemVersions/).
+The app was build in Swift 6 with SwiftUI and Concurrency and targets iOS 17+, [which covers most of the available iOS devices today](https://telemetrydeck.com/survey/apple/iOS/majorSystemVersions/).
 
 Images for the movie posters were added to the project manually as the API only provides text data.
 The effort for adding tests was not completed, but some of the most important entities were covered with unit- and snapshot-tests.
 For the reason of simplicity the app only works in portrait mode on phones.
 
 The next steps to improve the application could be:
-- A better approach for creating and sending fetching requests when a URL section on the details screen is opened, to keep the data traffic lower.
+- A more fine-grained approach for fetching multiple models when a URL section on the details screen is opened, to keep the traffic lower.
 - An offline-mode by persisting the loaded data on disk.
-- A search bar for finding specific information.
+- A search screen for finding specific information.
 - A watch list screen where users could find their favorite facts.
 
 <div style="display: flex; flex-wrap: wrap;">
