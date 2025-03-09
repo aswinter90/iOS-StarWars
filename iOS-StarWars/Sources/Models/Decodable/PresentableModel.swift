@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol PresentableModel: Decodable, Hashable, Identifiable {
+protocol PresentableModel: Decodable, Hashable, Identifiable, Sendable {
     var name: String { get }
 }
 

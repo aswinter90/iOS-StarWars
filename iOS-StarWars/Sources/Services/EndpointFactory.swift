@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol EndpointProviding {
+protocol EndpointProviding: Sendable {
     func makeURL(for fact: StarWarsFact) -> URL
 }
 

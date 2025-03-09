@@ -17,7 +17,7 @@ protocol FilmPagerInteracting {
     var state: FilmPagerState { get }
     var navigationTitle: String { get }
     var factProvider: FactProviding { get }
-    func fetchFilms() async
+    @MainActor func fetchFilms() async
 }
 
 @Observable class FilmPagerViewModel: FilmPagerInteracting {

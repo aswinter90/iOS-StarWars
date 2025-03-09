@@ -7,7 +7,7 @@
 
 import Foundation
 
-class NetworkingMock: Networking {
+final class NetworkingMock: Networking, @unchecked Sendable {
     var fetchResult: Any?
     var fetchError: CommonError?
 

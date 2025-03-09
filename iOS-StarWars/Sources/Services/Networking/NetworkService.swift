@@ -7,14 +7,14 @@
 
 import Foundation
 
-protocol Networking {
+protocol Networking: Sendable {
     func fetch<T: Decodable>(_ type: T.Type, from url: URL) async throws(CommonError) -> T
 }
 
-class NetworkService {
+final class NetworkService {
     private static let maxNumberOfRetries = 2
 
-    private var decoder: JSONDecoder = {
+    private let decoder: JSONDecoder = {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = .formatted(Formatters.iso8601Formatter)
         return decoder

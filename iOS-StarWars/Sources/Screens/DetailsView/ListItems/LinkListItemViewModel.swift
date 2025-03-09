@@ -17,7 +17,7 @@ protocol LinkListItemInteracting {
     var state: LinkListItemState { get }
     var key: String { get }
     var factProvider: FactProviding { get }
-    func fetchModels() async
+    @MainActor func fetchModels() async
 }
 
 @Observable class LinkListItemViewModel: LinkListItemInteracting {
@@ -44,8 +44,7 @@ protocol LinkListItemInteracting {
 
         // For simplicity we assume that all URLs in the list point to the same resource type
         guard let fact = StarWarsFact(from: firstURL) else {
-            // swiftlint:disable:next line_length
-            debugPrint("Error: Failed to determine response model from URL: \(firstURL). Second to last path component does not match any known `StarWarsFact`")
+            debugPrint("Error: Failed to determine response model from resource URL: \(firstURL).")
             state = .error(.unsupportedResourceURL(url: firstURL))
             return
         }
@@ -57,28 +56,28 @@ protocol LinkListItemInteracting {
         // swiftlint:enable line_length
         let models: [(any PresentableModel)?] = switch fact {
         case .films:
-            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
-                try await self.factProvider.fetchFact(for: url)
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { [factProvider] url in
+                try await factProvider.fetchFact(for: url)
             }) as [Film]
         case .people:
-            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
-                try await self.factProvider.fetchFact(for: url)
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { [factProvider] url in
+                try await factProvider.fetchFact(for: url)
             }) as [Character]
         case .planets:
-            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
-                try await self.factProvider.fetchFact(for: url)
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { [factProvider] url in
+                try await factProvider.fetchFact(for: url)
             }) as [Planet]
         case .species:
-            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
-                try await self.factProvider.fetchFact(for: url)
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { [factProvider] url in
+                try await factProvider.fetchFact(for: url)
             }) as [Species]
         case .starships:
-            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
-                try await self.factProvider.fetchFact(for: url)
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { [factProvider] url in
+                try await factProvider.fetchFact(for: url)
             }) as [Starship]
         case .vehicles:
-            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { url in
-                try await self.factProvider.fetchFact(for: url)
+            await TaskBundler.taskGroup(resourceUrls: urls, fetchingTask: { [factProvider] url in
+                try await factProvider.fetchFact(for: url)
             }) as [Vehicle]
         }
 

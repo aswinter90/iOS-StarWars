@@ -10,7 +10,7 @@ import Foundation
 enum TaskBundler {
     static func taskGroup<Response: PresentableModel>(
         resourceUrls: [URL],
-        fetchingTask: @escaping (URL) async throws -> Response?
+        fetchingTask: @escaping @Sendable (URL) async throws -> Response?
     ) async -> [Response] {
         await withTaskGroup(of: Response?.self) { taskGroup in
             resourceUrls.forEach { url in

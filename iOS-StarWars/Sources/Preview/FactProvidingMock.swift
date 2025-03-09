@@ -7,7 +7,7 @@
 
 import Foundation
 
-class FactProvidingMock: FactProviding {
+final class FactProvidingMock: FactProviding, @unchecked Sendable {
     var fetchFilmsReturnValue: FactListResponse<Film> = FactListResponse(results: [PreviewData.film])
     var fetchFilmsError: CommonError?
 

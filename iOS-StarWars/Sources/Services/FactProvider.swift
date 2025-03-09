@@ -7,12 +7,12 @@
 
 import Foundation
 
-protocol FactProviding {
+protocol FactProviding: Sendable {
     func fetchFilms() async throws(CommonError) -> FactListResponse<Film>
     func fetchFact<Response: PresentableModel>(for url: URL) async throws(CommonError) -> Response
 }
 
-class FactProvider: FactProviding {
+final class FactProvider: FactProviding {
     private let endpointProvider: EndpointProviding
     private let networkService: Networking
 
