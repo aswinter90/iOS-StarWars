@@ -21,5 +21,4 @@ The next steps to improve the application could be:
   <img src="https://github.com/user-attachments/assets/957d0057-b945-49af-af87-a78a094e8916" alt="4" style="width: 14%;" />
   <img src="https://github.com/user-attachments/assets/de2977ef-fc7b-49a1-aebe-85db06c6b75c" alt="5" style="width: 14%;" />
   <img src="https://github.com/user-attachments/assets/231b4bda-d88e-4056-9025-86754847c27d" alt="6" style="width: 14%;" />
-  <img src="https://github.com/user-attachments/assets/3c0f16f0-c850-4d74-9a1c-68714a7f7bf5" alt="7" style="width: 14%;" />
 </div>
