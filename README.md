@@ -1,6 +1,6 @@
 # iOS-StarWars
 
-This iOS project contains a simple showcase application which integrates the Star Wars API [SWAPI](https://swapi.dev/) to display information about the popular movie franchise. After selecting a film the user can navigate further to other detail screens for related information about characters, planets, starships, etc.
+This iOS project is the result of a coding-challenge to build a simple showcase application which integrates the Star Wars API [SWAPI](https://swapi.dev/) to display information about the popular movie franchise. After selecting a film the user can navigate further to other detail screens for related information about characters, planets, starships, etc.
 
 The app was built in Swift 6 with SwiftUI and Concurrency and targets iOS 17+, [which covers most of the available iOS devices today](https://telemetrydeck.com/survey/apple/iOS/majorSystemVersions/).
 
