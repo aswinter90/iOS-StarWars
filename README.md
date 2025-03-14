@@ -14,6 +14,11 @@ The next steps to improve the application could be:
 - A search screen for finding specific information.
 - A watch list screen where users could find their favorite facts.
 
+Resources:
+- Lightsaber icon: https://icons8.com
+- Film posters: https://starwars.fandom.com/wiki
+- App Icon generated with MS Copilot
+
 <div style="display: flex; flex-wrap: wrap;">
   <img src="https://github.com/user-attachments/assets/12fde79a-502d-4fa2-b061-6c4446c79282" alt="2" style="width: 14%;" />
   <img src="https://github.com/user-attachments/assets/97dee767-9ebf-41ac-afac-d26f3a50a3f4" alt="3" style="width: 14%;" />
@@ -23,8 +28,3 @@ The next steps to improve the application could be:
   <img src="https://github.com/user-attachments/assets/3c0f16f0-c850-4d74-9a1c-68714a7f7bf5" alt="7" style="width: 14%;" />
   <img src="https://github.com/user-attachments/assets/1d3e6d3a-1016-4908-8e10-b3f1a3bacb2d" alt="1" style="width: 14%;" />
 </div>
-
-Resources:
-- Lightsaber icon: https://icons8.com
-- Film posters: https://starwars.fandom.com/wiki
-- App Icon generated with MS Copilot
